@@ -1,0 +1,17 @@
+# Ignore node_modules globally
+node_modules/
+
+# Ignore build outputs
+dist/
+build/
+
+# Ignore logs
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/project files
+.vscode/
+.idea/
