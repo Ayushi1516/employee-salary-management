@@ -1,0 +1,53 @@
+# Backend Microservices Architecture (Initial Setup)
+
+This repository contains the **basic architecture scaffold** for a backend system built with microservices and microfrontend integration.
+At this stage, the services are created as empty modules with folder structures, ready for future implementation.
+
+## 📌 Services Created
+
+- **API Gateway**
+  - Entry point for all client requests
+  - Will handle routing, authentication, and request filtering
+
+- **Employee Management Service**
+  - Planned features: CRUD operations for employees, department assignment, bulk upload
+
+- **Salary Management Service**
+  - Planned features: CRUD operations for salaries, bulk upload, audit trail
+
+- **Department Management Service**
+  - Planned features: CRUD operations for departments, aggregation of employees and salaries
+
+- **Eureka Server**
+  - Service registry for microservices
+  - Enables dynamic discovery and load balancing
+
+## ⚙️ Tech Stack (Planned)
+
+- Java + Spring Boot
+- Maven for build management
+- Spring Cloud Netflix Eureka for service discovery
+- Spring Cloud Gateway for API Gateway
+- Kafka for asynchronous event streaming
+- MySQL for persistence
+
+## 📂 Current Project Structure
+
+backend/
+├── api-gateway/           # empty scaffold
+├── employee-service/      # empty scaffold
+├── salary-service/        # empty scaffold
+├── department-service/    # empty scaffold
+├── eureka-server/         # empty scaffold
+└── audit-service/         # (not yet added)
+
+## 🚀 Next Steps
+
+- Implement service logic inside each module
+- Add database schema and repositories
+- Integrate Kafka for event-driven communication
+- Configure API Gateway routes
+- Add Docker support for containerization
+- Write unit and integration tests
+
+---
