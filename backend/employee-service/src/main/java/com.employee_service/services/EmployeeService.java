@@ -5,6 +5,7 @@ import java.util.List;
 import com.employee_service.dto.EmployeeDtos.EmployeeResponse;
 import com.employee_service.dto.EmployeeDtos.EmployeeRequest;
 import com.employee_service.dto.EmployeeDtos.PageResponse;
+import com.employee_service.dto.HeadcountRow;
 import com.employee_service.entity.Employee;
 import com.employee_service.exception.EmployeeNotFoundException;
 import com.employee_service.repositories.EmployeeRepository;
@@ -18,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class EmployeeService {
 
-    /** Guard rail: a client cannot ask for the whole 10k table in one response. */
     static final int MAX_PAGE_SIZE = 100;
 
     private final EmployeeRepository repository;
@@ -61,6 +61,10 @@ public class EmployeeService {
     @Transactional
     public void terminate(long id) {
         find(id).terminate();
+    }
+
+    public List<HeadcountRow> headcountByDepartment() {
+        return repository.headcountByDepartment();
     }
 
     private Employee find(long id) {

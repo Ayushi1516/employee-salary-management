@@ -4,6 +4,7 @@ package com.employee_service.controller;
 import com.employee_service.dto.EmployeeDtos.EmployeeRequest;
 import com.employee_service.dto.EmployeeDtos.EmployeeResponse;
 import com.employee_service.dto.EmployeeDtos.PageResponse;
+import com.employee_service.dto.HeadcountRow;
 import com.employee_service.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService service;
@@ -23,10 +24,10 @@ public class EmployeeController {
 
     @GetMapping
     public PageResponse<EmployeeResponse> search(@RequestParam(required = false) String q,
-                                                              @RequestParam(required = false) Long departmentId,
-                                                              @RequestParam(required = false) String countryCode,
-                                                              @RequestParam(defaultValue = "0") int page,
-                                                              @RequestParam(defaultValue = "25") int size) {
+                                                 @RequestParam(required = false) Long departmentId,
+                                                 @RequestParam(required = false) String countryCode,
+                                                 @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "25") int size) {
         return service.search(q, departmentId, countryCode, page, size);
     }
 
@@ -50,6 +51,11 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void terminate(@PathVariable long id) {
         service.terminate(id);
+    }
+
+    @GetMapping("/stats/headcount")
+    public List<HeadcountRow> headcountByDepartment() {
+        return service.headcountByDepartment();
     }
 
 }

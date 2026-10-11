@@ -51,4 +51,14 @@ public class Employee {
 
     public void terminate() { this.status = Status.TERMINATED; }
 
+    public Long getId() { return id; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getEmail() { return email; }
+    public String getJobTitle() { return jobTitle; }
+    public Long getDepartmentId() { return departmentId; }
+    public String getCountryCode() { return countryCode; }
+    public LocalDate getHireDate() { return hireDate; }
+    public Status getStatus() { return status; }
+
 }
