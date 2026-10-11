@@ -33,6 +33,7 @@ public final class SalaryDtos {
         }
     }
 
+    public record AnalyticsResponse(GroupStat overall, List<GroupStat> byDepartment, List<GroupStat> byCountry) { }
 
     /** Subset of employee-service's response that this service needs. */
     public record EmployeeSnapshot(Long id, Long departmentId, String countryCode, String status) { }

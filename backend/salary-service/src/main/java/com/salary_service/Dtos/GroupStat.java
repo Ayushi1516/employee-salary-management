@@ -1,4 +1,4 @@
-package com.salary_service.config;
+package com.salary_service.Dtos;
 
 import java.math.BigDecimal;
 
