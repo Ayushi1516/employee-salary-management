@@ -1,4 +1,4 @@
-package com.acme.salary.common;
+package com.common.event;
 
 /** Kafka topic names shared across services. */
 public final class Topics {

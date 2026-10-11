@@ -1,4 +1,4 @@
-package com.acme.salary.common;
+package com.common.event;
 
 import java.math.BigDecimal;
 import java.time.Instant;
