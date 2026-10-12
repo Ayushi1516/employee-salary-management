@@ -1,3 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+/* ---------------------------------------------------------------------------
+   Design tokens. Direction: a payroll ledger. Cool paper, ink-navy chrome,
+   and one green that is reserved for money and primary actions.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #f2f4f6;
+  --color-card: #ffffff;
+  --color-ink: #17202b;
+  --color-ink-soft: #5b6674;
+  --color-rule: #dde2e8;
+  --color-chrome: #17202b;
+  --color-chrome-text: #c5cdd8;
+  --color-money: #0d6b4b;
+  --color-money-soft: #d9efe5;
+  --color-alert: #b3261e;
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+html, body { height: 100%; }
+body { @apply bg-paper text-ink font-sans antialiased; }
+
+@layer components {
+  /* ----- surfaces ----- */
+  .card { @apply rounded-xl border border-rule bg-card; }
+  .card-body { @apply p-5; }
+  .card-title { @apply text-base font-semibold; }
+
+  /* ----- buttons ----- */
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply bg-money text-white hover:bg-emerald-900; }
+  .btn-ghost { @apply border border-rule bg-white text-ink hover:bg-slate-50; }
+  .btn-danger { @apply border border-alert/40 bg-white text-alert hover:bg-red-50; }
+  .btn-sm { @apply px-2.5 py-1 text-xs; }
+  .btn:focus-visible, a:focus-visible, .field:focus-visible { @apply outline-2 outline-offset-2 outline-money; }
+
+  /* ----- forms ----- */
+  .field { @apply w-full rounded-lg border border-rule bg-white px-3 py-2 text-sm placeholder:text-slate-400; }
+  .field-invalid { @apply border-alert; }
+  .label { @apply mb-1 block text-sm font-medium; }
+  .error-text { @apply mt-1 text-xs text-alert; }
+
+  /* ----- table ----- */
+  .table-wrap { @apply overflow-x-auto; }
+  .data-table { @apply w-full border-collapse text-sm; }
+  .data-table thead th { @apply whitespace-nowrap border-b border-rule bg-slate-50 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-ink-soft; }
+  .data-table tbody td { @apply border-b border-rule px-4 py-3 align-middle; }
+  .data-table tbody tr:last-child td { @apply border-b-0; }
+  .data-table tbody tr:hover { @apply bg-slate-50; }
+  .data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .data-table .actions { @apply whitespace-nowrap text-right; }
+
+  /* ----- badges ----- */
+  .badge { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium; }
+  .badge-success { @apply bg-money-soft text-money; }
+  .badge-warning { @apply bg-amber-100 text-amber-800; }
+  .badge-muted { @apply bg-slate-100 text-slate-600; }
+
+  /* ----- messages ----- */
+  .alert { @apply rounded-lg border px-4 py-3 text-sm; }
+  .alert-error { @apply border-alert/30 bg-red-50 text-alert; }
+  .alert-success { @apply border-money/30 bg-money-soft text-money; }
+  .alert-info { @apply border-slate-300 bg-slate-100 text-ink; }
+  .toast { @apply flex items-start gap-2 rounded-lg border px-4 py-3 text-sm shadow-lg; }
+  .toast-success { @apply border-money/30 bg-money-soft text-money; }
+  .toast-error { @apply border-alert/30 bg-red-50 text-alert; }
+  .toast-info { @apply border-slate-300 bg-white text-ink; }
+
+  /* ----- details grid on profile pages ----- */
+  .detail-label { @apply text-xs font-medium uppercase tracking-wide text-ink-soft; }
+  .detail-value { @apply mt-0.5 text-sm font-medium; }
+
+  .spinner { @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-money; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

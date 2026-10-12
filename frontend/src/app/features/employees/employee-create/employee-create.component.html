@@ -1,0 +1,7 @@
+<app-page-header heading="Add employee" subtitle="Create the employee first, then add their salary on the profile page.">
+  <a class="btn btn-ghost" [routerLink]="urls.employees">Back to employees</a>
+</app-page-header>
+
+<section class="card card-body">
+  <app-employee-form (saved)="onSaved($event)" (cancelled)="onCancelled()" />
+</section>

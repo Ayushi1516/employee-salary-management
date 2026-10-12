@@ -1,0 +1,41 @@
+<div class="min-h-screen md:flex">
+  <!-- Mobile top bar -->
+  <header class="flex items-center justify-between bg-chrome px-4 py-3 text-white md:hidden">
+    <span class="font-semibold">{{ appName }}</span>
+    <button type="button" class="btn btn-sm border border-white/30 text-white" [attr.aria-expanded]="menuOpen()" aria-controls="main-nav" (click)="toggleMenu()">
+      Menu
+    </button>
+  </header>
+
+  <!-- Sidebar -->
+  <nav id="main-nav" class="flex-col bg-chrome text-chrome-text md:sticky md:top-0 md:flex md:h-screen md:w-60 md:shrink-0" [class.hidden]="!menuOpen()" [class.flex]="menuOpen()">
+    <div class="hidden px-6 py-6 text-lg font-semibold tracking-tight text-white md:block">{{ appName }}</div>
+
+    <ul class="flex flex-col gap-1 px-3 py-2 text-sm">
+      @for (item of navItems; track item.url) {
+        <li>
+          <a [routerLink]="item.url" routerLinkActive="bg-white/10 text-white" (click)="closeMenu()" class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5">
+            {{ item.label }}
+          </a>
+        </li>
+      }
+    </ul>
+
+    <div class="mt-auto border-t border-white/10 px-6 py-4 text-xs">
+      <div class="font-medium text-white">{{ auth.username() }}</div>
+      @if (auth.role(); as role) {
+        <div class="mt-0.5">{{ roleLabels[role] }}</div>
+      }
+      <button type="button" class="mt-3 underline underline-offset-2 hover:text-white" (click)="auth.logout()">Sign out</button>
+    </div>
+  </nav>
+
+  <!-- Page content -->
+  <main class="min-w-0 flex-1 p-4 md:p-8">
+    <div class="mx-auto max-w-6xl">
+      <router-outlet />
+    </div>
+  </main>
+</div>
+
+<app-toast-container />

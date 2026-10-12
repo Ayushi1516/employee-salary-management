@@ -1,0 +1,67 @@
+<form class="grid gap-4 sm:grid-cols-2" [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <div>
+    <label class="label" for="firstName">First name</label>
+    <input id="firstName" class="field" [class.field-invalid]="isInvalid('firstName')" formControlName="firstName" />
+    @if (isInvalid('firstName')) { <p class="error-text">First name is required.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="lastName">Last name</label>
+    <input id="lastName" class="field" [class.field-invalid]="isInvalid('lastName')" formControlName="lastName" />
+    @if (isInvalid('lastName')) { <p class="error-text">Last name is required.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="email">Email</label>
+    <input id="email" type="email" class="field" [class.field-invalid]="isInvalid('email')" formControlName="email" />
+    @if (isInvalid('email')) { <p class="error-text">Enter a valid email address.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="jobTitle">Job title</label>
+    <input id="jobTitle" class="field" [class.field-invalid]="isInvalid('jobTitle')" formControlName="jobTitle" />
+    @if (isInvalid('jobTitle')) { <p class="error-text">Job title is required.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="departmentId">Department</label>
+    <select id="departmentId" class="field" [class.field-invalid]="isInvalid('departmentId')" formControlName="departmentId">
+      <option [ngValue]="0" disabled>Select a department</option>
+      @for (department of departmentService.departments(); track department.id) {
+        <option [ngValue]="department.id">{{ department.name }}</option>
+      }
+    </select>
+    @if (isInvalid('departmentId')) { <p class="error-text">Choose a department.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="countryCode">Country</label>
+    <select id="countryCode" class="field" [class.field-invalid]="isInvalid('countryCode')" formControlName="countryCode">
+      <option value="" disabled>Select a country</option>
+      @for (country of countries; track country.code) {
+        <option [value]="country.code">{{ country.name }}</option>
+      }
+    </select>
+    @if (isInvalid('countryCode')) { <p class="error-text">Choose a country.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="hireDate">Hire date</label>
+    <input id="hireDate" type="date" class="field" [class.field-invalid]="isInvalid('hireDate')" formControlName="hireDate" />
+    @if (isInvalid('hireDate')) { <p class="error-text">Hire date is required.</p> }
+  </div>
+
+  <div>
+    <label class="label" for="status">Status</label>
+    <select id="status" class="field" formControlName="status">
+      @for (status of statuses; track status.value) {
+        <option [value]="status.value">{{ status.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex gap-2 sm:col-span-2">
+    <button type="submit" class="btn btn-primary" [disabled]="saving()">{{ saving() ? 'Saving...' : 'Save employee' }}</button>
+    <button type="button" class="btn btn-ghost" (click)="cancelled.emit()">Cancel</button>
+  </div>
+</form>

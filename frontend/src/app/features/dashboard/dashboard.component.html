@@ -1,0 +1,93 @@
+<app-page-header heading="Payroll overview" subtitle="Current salaries of active employees, converted to USD." />
+
+@if (loading()) {
+  <app-loading label="Loading payroll figures..." />
+} @else if (errorMessage()) {
+  <app-alert type="error" [message]="errorMessage()" />
+} @else if (analytics(); as data) {
+  <!-- KPI cards -->
+  <section class="grid grid-cols-2 gap-4 lg:grid-cols-4" aria-label="Key figures">
+    <div class="card card-body border-t-4 border-t-money">
+      <p class="detail-label">Total annual payroll</p>
+      <p class="mt-2 text-2xl font-semibold text-money">{{ data.overall.totalUsd | compactUsd }}</p>
+    </div>
+    <div class="card card-body">
+      <p class="detail-label">Salaried employees</p>
+      <p class="mt-2 text-2xl font-semibold">{{ data.overall.employees | number }}</p>
+    </div>
+    <div class="card card-body">
+      <p class="detail-label">Average salary</p>
+      <p class="mt-2 text-2xl font-semibold">{{ data.overall.avgUsd | money }}</p>
+    </div>
+    <div class="card card-body">
+      <p class="detail-label">Highest salary</p>
+      <p class="mt-2 text-2xl font-semibold">{{ data.overall.maxUsd | money }}</p>
+    </div>
+  </section>
+
+  <!-- Payroll by department -->
+  <section class="card mt-6 overflow-hidden">
+    <h2 class="card-title px-5 pt-5">Payroll by department</h2>
+    <div class="table-wrap mt-3">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th class="num">Employees</th>
+            <th class="num">Average</th>
+            <th class="num">Total payroll</th>
+            <th class="w-1/4">Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of departmentRows(); track row.id) {
+            <tr>
+              <td class="font-medium">{{ row.name }}</td>
+              <td class="num">{{ row.employees | number }}</td>
+              <td class="num">{{ row.averageUsd | money }}</td>
+              <td class="num">{{ row.totalUsd | compactUsd }}</td>
+              <td>
+                <div class="h-2.5 rounded-full bg-money-soft" role="img" [attr.aria-label]="row.sharePercent | number: '1.0-0'">
+                  <div class="h-2.5 rounded-full bg-money" [style.width.%]="row.sharePercent"></div>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="5"><app-empty-state title="No salary data yet" message="Add salaries to see payroll by department." /></td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Pay by country -->
+  <section class="card mt-6 overflow-hidden">
+    <h2 class="card-title px-5 pt-5">Pay by country (USD)</h2>
+    <div class="table-wrap mt-3">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th class="num">Employees</th>
+            <th class="num">Lowest</th>
+            <th class="num">Average</th>
+            <th class="num">Highest</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (country of data.byCountry; track country.key) {
+            <tr>
+              <td class="font-medium">{{ country.key | countryName }}</td>
+              <td class="num">{{ country.employees | number }}</td>
+              <td class="num">{{ country.minUsd | money }}</td>
+              <td class="num">{{ country.avgUsd | money }}</td>
+              <td class="num">{{ country.maxUsd | money }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="5"><app-empty-state title="No salary data yet" /></td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

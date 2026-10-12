@@ -1,0 +1,29 @@
+<app-page-header heading="Salaries" subtitle="Find an employee by ID to see and change their salary." />
+
+<form class="card card-body mb-6 flex flex-wrap items-end gap-3" [formGroup]="lookupForm" (ngSubmit)="findEmployee()" novalidate>
+  <div class="w-full sm:w-64">
+    <label class="label" for="lookup-id">Employee ID</label>
+    <input id="lookup-id" type="number" min="1" class="field" formControlName="employeeId" placeholder="For example 1" />
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="searching()">{{ searching() ? 'Searching...' : 'Find employee' }}</button>
+</form>
+
+@if (errorMessage()) {
+  <app-alert type="error" [message]="errorMessage()" />
+} @else if (employee(); as emp) {
+  <!-- Employee summary: details come from the Employee Service, salary below comes from the Salary Service -->
+  <section class="card card-body mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="text-lg font-semibold">{{ emp | fullName }}</p>
+      <p class="text-sm text-ink-soft">{{ emp.jobTitle }} &middot; {{ emp.departmentId | departmentName }} &middot; {{ emp.countryCode | countryName }}</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <app-status-badge [status]="emp.status" />
+      <a class="btn btn-ghost btn-sm" [routerLink]="urls.employeeProfile(emp.id)">Open full profile</a>
+    </div>
+  </section>
+
+  <app-salary-panel [employeeId]="emp.id" [defaultCurrency]="currencyForCountry(emp.countryCode)" />
+} @else {
+  <section class="card"><app-empty-state title="No employee selected" message="Enter an employee ID above." /></section>
+}

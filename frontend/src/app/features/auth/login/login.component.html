@@ -1,0 +1,24 @@
+<div class="flex min-h-screen items-center justify-center p-4">
+  <form class="card card-body w-full max-w-sm" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h1 class="text-xl font-semibold tracking-tight">{{ appName }}</h1>
+    <p class="mt-1 text-sm text-ink-soft">Sign in with your HR account.</p>
+
+    <div class="mt-6">
+      <label class="label" for="username">Username</label>
+      <input id="username" class="field" formControlName="username" autocomplete="username" />
+    </div>
+
+    <div class="mt-4">
+      <label class="label" for="password">Password</label>
+      <input id="password" type="password" class="field" formControlName="password" autocomplete="current-password" />
+    </div>
+
+    @if (errorMessage()) {
+      <div class="mt-4"><app-alert type="error" [message]="errorMessage()" /></div>
+    }
+
+    <button type="submit" class="btn btn-primary mt-6 w-full" [disabled]="loading()">
+      {{ loading() ? 'Signing in...' : 'Sign in' }}
+    </button>
+  </form>
+</div>

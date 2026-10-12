@@ -1,0 +1,8 @@
+<div class="fixed bottom-4 right-4 z-50 flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-2" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast" [class.toast-success]="toast.type === 'success'" [class.toast-error]="toast.type === 'error'" [class.toast-info]="toast.type === 'info'">
+      <span class="flex-1">{{ toast.message }}</span>
+      <button type="button" class="px-1 opacity-70 hover:opacity-100" aria-label="Dismiss" (click)="toastService.dismiss(toast.id)">&times;</button>
+    </div>
+  }
+</div>

@@ -1,0 +1,11 @@
+<div class="flex flex-wrap items-center justify-between gap-3 border-t border-rule px-4 py-3 text-sm">
+  <span class="text-ink-soft">
+    Showing <strong class="text-ink">{{ firstItem() }}-{{ lastItem() }}</strong> of
+    <strong class="text-ink">{{ totalElements() | number }}</strong>
+  </span>
+  <div class="flex items-center gap-2">
+    <button type="button" class="btn btn-ghost" [disabled]="!hasPrevious()" (click)="pageChange.emit(page() - 1)">Previous</button>
+    <span class="px-1 text-ink-soft">Page {{ page() + 1 }} of {{ totalPages() || 1 }}</span>
+    <button type="button" class="btn btn-ghost" [disabled]="!hasNext()" (click)="pageChange.emit(page() + 1)">Next</button>
+  </div>
+</div>

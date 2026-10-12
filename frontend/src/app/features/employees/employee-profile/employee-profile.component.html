@@ -1,0 +1,39 @@
+@if (loading()) {
+  <app-loading label="Loading profile..." />
+} @else if (errorMessage()) {
+  <app-alert type="error" [message]="errorMessage()" />
+  <a class="btn btn-ghost mt-4" [routerLink]="urls.employees">Back to employees</a>
+} @else if (employee(); as emp) {
+  <app-page-header [heading]="emp | fullName" [subtitle]="emp.jobTitle">
+    <a class="btn btn-ghost" [routerLink]="urls.employees">Back</a>
+    <ng-container *appHasRole="roles.ADMIN">
+      @if (!editing()) {
+        <button type="button" class="btn btn-primary" (click)="editing.set(true)">Edit details</button>
+      }
+      @if (emp.status !== 'TERMINATED') {
+        <button type="button" class="btn btn-danger" [appConfirmClick]="messages.confirmTerminate(emp | fullName)" (confirmed)="terminate(emp)">Terminate</button>
+      }
+    </ng-container>
+  </app-page-header>
+
+  <!-- Employee details -->
+  <section class="card card-body">
+    <h2 class="card-title mb-4">Employee details</h2>
+
+    @if (editing()) {
+      <app-employee-form [employee]="emp" (saved)="onSaved($event)" (cancelled)="editing.set(false)" />
+    } @else {
+      <dl class="grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div><dt class="detail-label">Email</dt><dd class="detail-value">{{ emp.email }}</dd></div>
+        <div><dt class="detail-label">Department</dt><dd class="detail-value">{{ emp.departmentId | departmentName }}</dd></div>
+        <div><dt class="detail-label">Country</dt><dd class="detail-value">{{ emp.countryCode | countryName }}</dd></div>
+        <div><dt class="detail-label">Hire date</dt><dd class="detail-value">{{ emp.hireDate | date: 'longDate' }}</dd></div>
+        <div><dt class="detail-label">Status</dt><dd class="mt-1"><app-status-badge [status]="emp.status" /></dd></div>
+        <div><dt class="detail-label">Employee ID</dt><dd class="detail-value">{{ emp.id }}</dd></div>
+      </dl>
+    }
+  </section>
+
+  <!-- Salary (same component as the Salaries page, so both always show the same data) -->
+  <app-salary-panel class="mt-6 block" [employeeId]="emp.id" [defaultCurrency]="currencyForCountry(emp.countryCode)" />
+}
