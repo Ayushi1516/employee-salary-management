@@ -23,7 +23,7 @@
 
   <modules>
     <module>common</module>
-    <module>discovery-service</module>
+    <module>eureka-server</module>
     <module>api-gateway</module>
     <module>employee-service</module>
     <module>salary-service</module>
